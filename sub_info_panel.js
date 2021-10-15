@@ -34,13 +34,16 @@ Sub_info = script-name=Sub_info,update-interval=600
 
   let total = info.total - info.download - info.upload;
   let expire = args.expire || info.expire;
-  if (/^[\d]+$/.test(expire)) expire *= 1000;
-  let content = [`Remain：${bytesToSize(total)} | Expire：${formatTime(expire)}`];
+  let content = [`Remain：${bytesToSize(total)}`];
 
   if (resetDayLeft) {
     content.push(`重置：剩余${resetDayLeft}天`);
   }
-
+  if (expire) {
+    if (/^[\d]+$/.test(expire)) expire *= 1000;
+    content.push(`Expire：${formatTime(expire)}`);
+  }
+  
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();
