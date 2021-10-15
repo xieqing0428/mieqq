@@ -32,17 +32,13 @@ Sub_info = script-name=Sub_info,update-interval=600
   if (!info) $done();
   let resetDayLeft = getRmainingDays(parseInt(args["reset_day"]));
 
-  let used = info.download + info.upload;
-  let total = info.total;
+  let total = info.total - info.download - info.upload;
   let expire = args.expire || info.expire;
-  let content = [`用量：${bytesToSize(used)} | ${bytesToSize(total)}`];
+  if (/^[\d]+$/.test(expire)) expire *= 1000;
+  let content = [`Remain：${bytesToSize(total)} | Expire：${formatTime(expire)}`];
 
   if (resetDayLeft) {
     content.push(`重置：剩余${resetDayLeft}天`);
-  }
-  if (expire) {
-    if (/^[\d]+$/.test(expire)) expire *= 1000;
-    content.push(`到期：${formatTime(expire)}`);
   }
 
   let now = new Date();
@@ -140,5 +136,5 @@ function formatTime(time) {
   let year = dateObj.getFullYear();
   let month = dateObj.getMonth() + 1;
   let day = dateObj.getDate();
-  return year + "年" + month + "月" + day + "日";
+  return year + "-" + month + "-" + day;
 }
