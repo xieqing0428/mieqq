@@ -30,28 +30,18 @@ Sub_info = script-name=Sub_info,update-interval=600
   let args = getArgs();
   let info = await getDataInfo(args.url);
   if (!info) $done();
-  let resetDayLeft = getRmainingDays(parseInt(args["reset_day"]));
 
   let total = info.total - info.download - info.upload;
   let expire = args.expire || info.expire;
   let content = [`Remain：${bytesToSize(total)}`];
 
-  if (resetDayLeft) {
-    content.push(`重置：剩余${resetDayLeft}天`);
-  }
   if (expire) {
     if (/^[\d]+$/.test(expire)) expire *= 1000;
     content.push(`Expired：${formatTime(expire)}`);
   }
   
-  let now = new Date();
-  let hour = now.getHours();
-  let minutes = now.getMinutes();
-  hour = hour > 9 ? hour : "0" + hour;
-  minutes = minutes > 9 ? minutes : "0" + minutes;
-
   $done({
-    title: `${args.title} | ${hour}:${minutes}`,
+    title: `${args.title}`,
     content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#007aff",
@@ -106,24 +96,6 @@ async function getDataInfo(url) {
       .map((item) => item.split("="))
       .map(([k, v]) => [k, Number(v)])
   );
-}
-
-function getRmainingDays(resetDay) {
-  if (!resetDay) return;
-
-  let now = new Date();
-  let today = now.getDate();
-  let month = now.getMonth();
-  let year = now.getFullYear();
-  let daysInMonth;
-
-  if (resetDay > today) {
-    daysInMonth = 0;
-  } else {
-    daysInMonth = new Date(year, month + 1, 0).getDate();
-  }
-
-  return daysInMonth - today + resetDay;
 }
 
 function bytesToSize(bytes) {
