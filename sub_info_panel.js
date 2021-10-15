@@ -37,7 +37,7 @@ Sub_info = script-name=Sub_info,update-interval=600
   let content = [`Expire：${bytesToSize(total)} | ${formatTime(expire)}`];
 
   $done({
-    title: `Blinkload 套餐信息`,
+    title: `${args.title}` || "Blinkload 套餐信息",
     content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#007aff",
