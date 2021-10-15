@@ -34,7 +34,7 @@ Sub_info = script-name=Sub_info,update-interval=600
   let total = info.total - info.download - info.upload;
   let expire = args.expire || info.expire;
   if (/^[\d]+$/.test(expire)) expire *= 1000;
-  let content = [`Expire：${bytesToSize(total)} | ${formatTime(expire)}`];
+  let content = [`Expire: ${bytesToSize(total)} | ${formatTime(expire)}`];
 
   $done({
     title: `${args.title}` || "Blinkload 套餐信息",
