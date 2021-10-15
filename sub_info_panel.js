@@ -41,7 +41,7 @@ Sub_info = script-name=Sub_info,update-interval=600
   }
   if (expire) {
     if (/^[\d]+$/.test(expire)) expire *= 1000;
-    content.push(`Expire：${formatTime(expire)}`);
+    content.push(`Expired：${formatTime(expire)}`);
   }
   
   let now = new Date();
