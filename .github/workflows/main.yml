@@ -22,7 +22,7 @@ jobs:
         # In order to fetch changed files
         with:
           fetch-depth: 0
-          ref: main
+          ref: master
           
       - name: Check Config
         run: |
