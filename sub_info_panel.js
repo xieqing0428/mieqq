@@ -33,7 +33,7 @@ Sub_info = script-name=Sub_info,update-interval=600
 
   let total = info.total - info.download - info.upload;
   let expire = args.expire || info.expire;
-  if (/^[\d]+$/.test(expire)) expire *= 1000;
+  if (/^[\d.]+$/.test(expire)) expire *= 1000;
   let content = [`Expire: ${bytesToSize(total)} | ${formatTime(expire)}`];
 
   $done({
@@ -56,7 +56,7 @@ function getArgs() {
 function getUserInfo(url) {
   let request = { headers: { "User-Agent": "Quantumult%20X" }, url };
   return new Promise((resolve, reject) =>
-    $httpClient.head(request, (err, resp) => {
+    $httpClient.get(request, (err, resp) => {
       if (err != null) {
         reject(err);
         return;
