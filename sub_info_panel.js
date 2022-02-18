@@ -26,8 +26,9 @@ Sub_info = script-name=Sub_info,update-interval=600
 ----------------------------------------
 */
 
+let args = getArgs();
+
 (async () => {
-  let args = getArgs();
   let info = await getDataInfo(args.url);
   if (!info) $done();
 
@@ -54,9 +55,10 @@ function getArgs() {
 }
 
 function getUserInfo(url) {
+  let method = args.method || "head";
   let request = { headers: { "User-Agent": "Quantumult%20X" }, url };
   return new Promise((resolve, reject) =>
-    $httpClient.get(request, (err, resp) => {
+    $httpClient[method](request, (err, resp) => {
       if (err != null) {
         reject(err);
         return;
