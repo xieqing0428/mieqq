@@ -42,7 +42,7 @@ let resetDayLeft = getRmainingDays(resetDay);
   let used = usage.download + usage.upload;
   let total = usage.total;
   let expire = usage.expire || args.expire;
-  let localProxy = "=http, localhost, 6152";
+  let localProxy = ['=http, localhost, 6152','=http, 127.0.0.1, 6152','=socks5,127.0.0.1, 6153']
   let infoList = [`${bytesToSize(used)} | ${bytesToSize(total)}`];
 
   if (resetDayLeft) {
@@ -53,7 +53,7 @@ let resetDayLeft = getRmainingDays(resetDay);
     infoList.push(`套餐到期：${formatTime(expire)}`);
   }
   sendNotification(used / total, expire, infoList);
-  let body = infoList.map((item) => item + localProxy).join("\n");
+  let body = infoList.map((item, index) => item+localProxy[index]).join("\n");
   $done({ response: { body } });
 })();
 
